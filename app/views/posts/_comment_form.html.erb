@@ -1,0 +1,15 @@
+<%= form_for @post.comments.build do |f| %>
+  <%= f.hidden_field :post_id %>
+
+  <%= f.fields_for :user, User.new do |user_fields| %>
+    <%= user_fields.label :username %>
+    <%= f.collection_select :user_id, User.all, :id, :username %>
+  <% end %>
+  
+  <p>
+    <%= f.label :content, "New Comment" %><br>
+    <%= f.text_area :content %>
+  </p>
+  <br/>
+  <%= f.submit %>
+<% end %>
