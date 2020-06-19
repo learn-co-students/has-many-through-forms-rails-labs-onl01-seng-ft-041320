@@ -1,1 +1,64 @@
+<h1><%= @post.title %></h1>
 
+<h2>Post Content:<br><%= @post.content %></h2>
+Post Comments:
+  <% @post.comments.each do |pcom| %>
+  <li>
+    <%= pcom.user.username %> says: <%= pcom.content %>
+  </li>
+  <% end %>
+
+<p>Add your own comment here:
+<%= form_for @post.comments.build do |f| %>
+  <%= f.hidden_field :post_id %>
+  <p>
+      <%= f.collection_select :user_id, User.all, :id, :username %>
+  </p>
+
+  <%= f.fields_for :user, User.new do |user_fields| %>
+      <%= user_fields.label :username %>
+      <%= user_fields.text_field :username %>
+  <% end %>
+
+  <p>
+      <%= f.label :content, "New Comment" %>
+      <%= f.text_area :content %>
+  </p>
+
+  <%= f.submit %>
+
+<ul>
+  User Comment Names:
+    <% if @post.comments.any? %>
+      <% @post.users.uniq.each do |cu| %>
+      <li>
+        <%= link_to cu.username, cu %>
+      </li>
+      <% end %>
+  <% end %>
+</ul>
+
+
+<% end %>
+
+
+
+
+<p>Post Categories:
+  <% @post.categories.each do |cat| %>
+  <li>
+    <%= link_to cat.name, cat %>
+  </li>
+  <% end %>
+</p>
+
+<ol>All Categories:
+  <% Category.all.each do |cat| %>
+  <li>
+    <%= link_to cat.name, cat %>
+  </li>
+  <% end %>
+</ol>
+
+
+<h5><%= link_to "New post", new_post_path %></h5>

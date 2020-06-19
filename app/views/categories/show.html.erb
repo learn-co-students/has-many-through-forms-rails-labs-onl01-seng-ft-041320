@@ -1,0 +1,9 @@
+<ol>
+  <% @category.posts.each do |cp| %>
+  <li><%= link_to cp.title, cp %>
+    <p>
+      <%= cp.content %>
+    </p>
+  </li>
+  <% end %>
+</ol>
